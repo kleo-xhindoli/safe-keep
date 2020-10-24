@@ -4,6 +4,10 @@ import classNames from "classnames";
 import Button from "./components/ui/Button";
 import ActionMenu from "./components/ui/ActionMenu";
 import ActionMenuItem from "./components/ui/ActionMenuItem";
+import Drawer from "./components/ui/Drawer";
+import { useDisclosure } from "./hooks/utils";
+import Label from "./components/ui/Label";
+import Input from "./components/ui/Input";
 
 interface AppProps {}
 
@@ -36,6 +40,7 @@ const data = [
 ];
 
 const App: React.FC<AppProps> = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <div className="flex justify-center bg-gray-100">
       <div className="container px-4 pt-12 h-screen">
@@ -45,6 +50,7 @@ const App: React.FC<AppProps> = () => {
             className="mb-4 w-full sm:w-auto"
             variant="primary"
             leftIcon="Plus"
+            onClick={onOpen}
           >
             Add new item
           </Button>
@@ -79,6 +85,32 @@ const App: React.FC<AppProps> = () => {
           ))}
         </div>
       </div>
+
+      <Drawer
+        isOpen={isOpen}
+        onClose={onClose}
+        title="Add a new item"
+        subtitle="Add a new item to the safe"
+        footer={
+          <div>
+            <Button className="mr-2" onClick={onClose}>
+              Cancel
+            </Button>
+            <Button variant="primary">Save</Button>
+          </div>
+        }
+      >
+        <div className="space-y-4">
+          <div>
+            <Label className="mb-1">Value</Label>
+            <Input placeholder="Value to store in the safe" />
+          </div>
+          <div>
+            <Label className="mb-1">Label</Label>
+            <Input placeholder="Label for this value" />
+          </div>
+        </div>
+      </Drawer>
     </div>
   );
 };
