@@ -2,6 +2,8 @@ import React from "react";
 import IconButton from "./components/ui/IconButton";
 import classNames from "classnames";
 import Button from "./components/ui/Button";
+import ActionMenu from "./components/ui/ActionMenu";
+import ActionMenuItem from "./components/ui/ActionMenuItem";
 
 interface AppProps {}
 
@@ -50,10 +52,11 @@ const App: React.FC<AppProps> = () => {
         <div className="flex flex-col bg-white rounded-lg shadow">
           {data.map((item, idx) => (
             <div
+              key={item.id}
               className={classNames(
-                "px-2 py-2 flex items-center justify-between active:bg-gray-100",
+                "px-2 py-2 flex items-center justify-between",
                 {
-                  "border-b": idx !== data.length,
+                  "border-b border-gray-200": idx !== data.length,
                 }
               )}
             >
@@ -65,7 +68,12 @@ const App: React.FC<AppProps> = () => {
               </div>
               <div className="flex space-x-1">
                 <IconButton icon="ClipboardCopy" />
-                <IconButton icon="DotsVertical" />
+                <ActionMenu>
+                  <ActionMenuItem leftIcon="Eye">Show</ActionMenuItem>
+                  <ActionMenuItem leftIcon="ClipboardCopy">Copy</ActionMenuItem>
+                  <ActionMenuItem leftIcon="Pencil">Edit</ActionMenuItem>
+                  <ActionMenuItem leftIcon="Trash">Delete</ActionMenuItem>
+                </ActionMenu>
               </div>
             </div>
           ))}
