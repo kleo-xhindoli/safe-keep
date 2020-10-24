@@ -35,37 +35,41 @@ const data = [
 
 const App: React.FC<AppProps> = () => {
   return (
-    <div className="px-4 pt-12 h-screen bg-gray-100">
-      <p className="mb-6 text-2xl text-center font-semibold">Safe Keep</p>
-      <div className="flex justify-end">
-        <Button
-          className="mb-4 w-full sm:w-auto"
-          variant="primary"
-          leftIcon="Plus"
-        >
-          Add new item
-        </Button>
-      </div>
-      <div className="flex flex-col bg-white rounded-lg shadow">
-        {data.map((item, idx) => (
-          <div
-            className={classNames(
-              "px-2 py-2 flex items-center justify-between active:bg-gray-100",
-              {
-                "border-b": idx !== data.length,
-              }
-            )}
+    <div className="flex justify-center bg-gray-100">
+      <div className="container px-4 pt-12 h-screen">
+        <p className="mb-6 text-2xl text-center font-semibold">Safe Keep</p>
+        <div className="flex justify-end">
+          <Button
+            className="mb-4 w-full sm:w-auto"
+            variant="primary"
+            leftIcon="Plus"
           >
-            <div className="overflow-hidden">
-              <p className="text-gray-500 font-medium text-sm">{item.label}</p>
-              <p className="text-gray-800 truncate">{item.value}</p>
+            Add new item
+          </Button>
+        </div>
+        <div className="flex flex-col bg-white rounded-lg shadow">
+          {data.map((item, idx) => (
+            <div
+              className={classNames(
+                "px-2 py-2 flex items-center justify-between active:bg-gray-100",
+                {
+                  "border-b": idx !== data.length,
+                }
+              )}
+            >
+              <div className="overflow-hidden">
+                <p className="text-gray-500 font-medium text-sm">
+                  {item.label}
+                </p>
+                <p className="text-gray-800 truncate">{item.value}</p>
+              </div>
+              <div className="flex space-x-1">
+                <IconButton icon="ClipboardCopy" />
+                <IconButton icon="DotsVertical" />
+              </div>
             </div>
-            <div className="flex space-x-1">
-              <IconButton icon="ClipboardCopy" />
-              <IconButton icon="DotsVertical" />
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
