@@ -19,7 +19,6 @@ const ActionMenuItem: React.FC<ActionMenuItemProps> = ({
   leftIcon,
   iconClassName,
   className,
-  onClick,
   children,
   ...rest
 }) => {
@@ -34,7 +33,6 @@ const ActionMenuItem: React.FC<ActionMenuItemProps> = ({
             { "bg-gray-100 text-gray-900": active },
             className
           )}
-          role="menuitem"
           {...rest}
         >
           {leftIcon && (
