@@ -12,15 +12,16 @@ export type FormValues = Yup.InferType<typeof validationSchema>;
 
 interface SecretFormProps {
   onSubmit?: (values: FormValues) => void;
+  initialValues?: FormValues;
 }
 
 const SecretForm = React.forwardRef<HTMLButtonElement, SecretFormProps>(
-  ({ onSubmit }, ref) => {
+  ({ onSubmit, initialValues }, ref) => {
     return (
       <Formik
         initialValues={{
-          label: "",
-          value: "",
+          label: initialValues?.label || "",
+          value: initialValues?.value || "",
         }}
         validationSchema={validationSchema}
         onSubmit={async (values, actions) => {

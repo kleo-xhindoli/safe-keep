@@ -72,11 +72,9 @@ const SecretListItem: React.FC<SecretListItemProps> = ({
     >
       <div className="overflow-hidden">
         <p className="text-gray-500 font-medium text-sm">{secret.label}</p>
-        {isVisible ? (
-          <p className="text-gray-800 truncate">{secret.value}</p>
-        ) : (
-          <p className="text-gray-800 text-lg truncate">••••••••</p>
-        )}
+        <p className="text-gray-800 truncate">
+          {isVisible ? secret.value : "••••••••"}
+        </p>
       </div>
       <div className="flex space-x-1">
         <IconButton icon="ClipboardCopy" onClick={handleCopyValue} />
@@ -87,8 +85,12 @@ const SecretListItem: React.FC<SecretListItemProps> = ({
           >
             {isVisible ? "Hide" : "Show"}
           </ActionMenuItem>
-          <ActionMenuItem leftIcon="ClipboardCopy">Copy</ActionMenuItem>
-          <ActionMenuItem leftIcon="Pencil">Edit</ActionMenuItem>
+          <ActionMenuItem onClick={handleCopyValue} leftIcon="ClipboardCopy">
+            Copy
+          </ActionMenuItem>
+          <ActionMenuItem to={`?edit=${secret.id}`} leftIcon="Pencil">
+            Edit
+          </ActionMenuItem>
           <ActionMenuItem
             as="button"
             onClick={() => onDelete?.(secret)}

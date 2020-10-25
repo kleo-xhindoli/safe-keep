@@ -1,4 +1,5 @@
 import { useMemo, DependencyList, useState, useCallback } from "react";
+import { useLocation } from "react-router-dom";
 
 /**
  * Returns a computed value from some state. Value is recalculated only when the
@@ -25,4 +26,17 @@ export function useDisclosure(initial: boolean = false) {
     onClose,
     onToggle,
   };
+}
+
+/**
+ * Returns the parsed query params of the current route
+ */
+export function useQueryParams() {
+  const location = useLocation();
+
+  const params = useMemo(() => new URLSearchParams(location.search), [
+    location.search,
+  ]);
+
+  return params;
 }
