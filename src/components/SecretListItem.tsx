@@ -6,9 +6,13 @@ import IconButton from "./ui/IconButton";
 
 interface SecretListItemProps {
   secret: Secret;
+  onDelete?: (secret: Secret) => void;
 }
 
-const SecretListItem: React.FC<SecretListItemProps> = ({ secret }) => {
+const SecretListItem: React.FC<SecretListItemProps> = ({
+  secret,
+  onDelete,
+}) => {
   return (
     <div
       key={secret.id}
@@ -24,7 +28,13 @@ const SecretListItem: React.FC<SecretListItemProps> = ({ secret }) => {
           <ActionMenuItem leftIcon="Eye">Show</ActionMenuItem>
           <ActionMenuItem leftIcon="ClipboardCopy">Copy</ActionMenuItem>
           <ActionMenuItem leftIcon="Pencil">Edit</ActionMenuItem>
-          <ActionMenuItem leftIcon="Trash">Delete</ActionMenuItem>
+          <ActionMenuItem
+            as="button"
+            onClick={() => onDelete?.(secret)}
+            leftIcon="Trash"
+          >
+            Delete
+          </ActionMenuItem>
         </ActionMenu>
       </div>
     </div>
