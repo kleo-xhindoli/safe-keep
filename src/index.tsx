@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import config, { env } from "./config";
-import * as firebase from "firebase";
+import * as firebase from "firebase/app";
 
 firebase.initializeApp(config.firebase);
 
