@@ -14,7 +14,7 @@ const App: React.FC<AppProps> = () => {
 
   return (
     <div className="flex justify-center bg-gray-100">
-      <div className="container px-4 py-12 min-h-screen">
+      <div className="container px-4 pt-12 pb-48 min-h-screen">
         <div className="flex justify-center items-center mb-6">
           <Icon name="LockClosedSolid" className="mr-1 w-6 h-6" />
           <p className="text-2xl text-center font-semibold">SafeKeep</p>
