@@ -48,6 +48,7 @@ const SecretsList: React.FC<SecretsListProps> = ({ secrets }) => {
         title={`Delete ${secretToDelete?.label}`}
         primaryActionSlot={
           <Button
+            className="w-full"
             variant="danger"
             isLoading={isDeleteing}
             onClick={handleDelete}
@@ -55,7 +56,11 @@ const SecretsList: React.FC<SecretsListProps> = ({ secrets }) => {
             Delete
           </Button>
         }
-        secondaryActionSlot={<Button onClick={onClose}>Cancel</Button>}
+        secondaryActionSlot={
+          <Button className="w-full" onClick={onClose}>
+            Cancel
+          </Button>
+        }
       >
         <p className="mt-2 text-sm leading-5 text-gray-500">
           Are you sure you want to delete the secret{" "}
