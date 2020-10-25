@@ -31,9 +31,14 @@ const SecretsList: React.FC<SecretsListProps> = ({ secrets }) => {
   };
 
   return (
-    <div className="flex flex-col bg-white rounded-lg shadow divide-y divide-gray-200">
-      {secrets.map((item) => (
-        <SecretListItem secret={item} key={item.id} onDelete={markForDelete} />
+    <div className="flex flex-col bg-white rounded-lg shadow">
+      {secrets.map((item, idx) => (
+        <SecretListItem
+          secret={item}
+          key={item.id}
+          onDelete={markForDelete}
+          isLast={idx === secrets.length - 1}
+        />
       ))}
 
       <AlertModal
