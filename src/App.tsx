@@ -60,7 +60,7 @@ const App: React.FC<AppProps> = () => {
             <div
               key={item.id}
               className={classNames(
-                "px-2 py-2 flex items-center justify-between",
+                "p-2 sm:px-4 flex items-center justify-between",
                 {
                   "border-b border-gray-200": idx !== data.length,
                 }
