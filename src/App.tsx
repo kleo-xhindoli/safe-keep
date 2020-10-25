@@ -9,6 +9,7 @@ import { useDisclosure } from "./hooks/utils";
 import Label from "./components/ui/Label";
 import Input from "./components/ui/Input";
 import Icon from "./components/ui/Icon";
+import { useSecrets } from "./hooks/resources/secrets";
 
 interface AppProps {}
 
@@ -42,6 +43,7 @@ const data = [
 
 const App: React.FC<AppProps> = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [secrets] = useSecrets("safe-1");
 
   return (
     <div className="flex justify-center bg-gray-100">
@@ -57,11 +59,11 @@ const App: React.FC<AppProps> = () => {
             leftIcon="Plus"
             onClick={onOpen}
           >
-            Add new item
+            Add new Secret
           </Button>
         </div>
         <div className="flex flex-col bg-white rounded-lg shadow">
-          {data.map((item, idx) => (
+          {secrets?.map((item, idx) => (
             <div
               key={item.id}
               className={classNames(
