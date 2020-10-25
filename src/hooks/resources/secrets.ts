@@ -1,4 +1,5 @@
-import * as firebase from "firebase";
+import * as firebase from "firebase/app";
+import "firebase/database";
 import { useListVals } from "react-firebase-hooks/database";
 import { Secret } from "../../types/secret";
 

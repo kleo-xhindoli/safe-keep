@@ -4,42 +4,12 @@ import classNames from "classnames";
 import Button from "./components/ui/Button";
 import ActionMenu from "./components/ui/ActionMenu";
 import ActionMenuItem from "./components/ui/ActionMenuItem";
-import Drawer from "./components/ui/Drawer";
 import { useDisclosure } from "./hooks/utils";
-import Label from "./components/ui/Label";
-import Input from "./components/ui/Input";
 import Icon from "./components/ui/Icon";
 import { useSecrets } from "./hooks/resources/secrets";
+import SecretFormDrawer from "./components/SecretFormDrawer";
 
 interface AppProps {}
-
-const data = [
-  {
-    id: "f2e237b8-efad-4a88-8fab-ca8ec2c900da",
-    label: "Bank Email",
-    value: "mateb76439@brownal.net",
-  },
-  {
-    id: "eb26cebc-814e-492e-b4e6-218669284af5",
-    label: "Bank Password",
-    value: "NotMyPassword@2020",
-  },
-  {
-    id: "c0ac710d-2067-49f8-a24a-52cab9b703d7",
-    label: "Credit Card",
-    value: "4716106675885133",
-  },
-  {
-    id: "c0ac710d-2067-49f8-a24a-52cab9b703d5",
-    label: "PIN",
-    value: "1234",
-  },
-  {
-    id: "c0ac710d-2067-49f8-a24a-52cab9b703d1",
-    label: "Long value",
-    value: "c0ac710d-2067-49f8-a24a-52cab9b703d5",
-  },
-];
 
 const App: React.FC<AppProps> = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -69,7 +39,7 @@ const App: React.FC<AppProps> = () => {
               className={classNames(
                 "p-2 sm:px-4 flex items-center justify-between",
                 {
-                  "border-b border-gray-200": idx !== data.length,
+                  "border-b border-gray-200": idx !== secrets.length - 1,
                 }
               )}
             >
@@ -92,32 +62,7 @@ const App: React.FC<AppProps> = () => {
           ))}
         </div>
       </div>
-
-      <Drawer
-        isOpen={isOpen}
-        onClose={onClose}
-        title="Add a new item"
-        subtitle="Add a new item to the safe"
-        footer={
-          <div>
-            <Button className="mr-2" onClick={onClose}>
-              Cancel
-            </Button>
-            <Button variant="primary">Save</Button>
-          </div>
-        }
-      >
-        <div className="space-y-4">
-          <div>
-            <Label className="mb-1">Value</Label>
-            <Input placeholder="Value to store in the safe" />
-          </div>
-          <div>
-            <Label className="mb-1">Label</Label>
-            <Input placeholder="Label for this value" />
-          </div>
-        </div>
-      </Drawer>
+      <SecretFormDrawer isOpen={isOpen} onClose={onClose} />
     </div>
   );
 };

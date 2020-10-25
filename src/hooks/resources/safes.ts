@@ -1,4 +1,5 @@
-import * as firebase from "firebase";
+import * as firebase from "firebase/app";
+import "firebase/database";
 import { Safe } from "../../types/safe";
 import { useList } from "react-firebase-hooks/database";
 import { useComputed } from "../utils";
