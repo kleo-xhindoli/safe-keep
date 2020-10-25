@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import React from "react";
 import useNotification from "../hooks/useNotification";
+import { useDisclosure } from "../hooks/utils";
 import { Secret } from "../types/secret";
 import ActionMenu from "./ui/ActionMenu";
 import ActionMenuItem from "./ui/ActionMenuItem";
@@ -19,6 +20,7 @@ const SecretListItem: React.FC<SecretListItemProps> = ({
   isLast,
 }) => {
   const { showNotification } = useNotification();
+  const { isOpen: isVisible, onToggle } = useDisclosure();
 
   const copyValue = async () => {
     try {
@@ -70,12 +72,21 @@ const SecretListItem: React.FC<SecretListItemProps> = ({
     >
       <div className="overflow-hidden">
         <p className="text-gray-500 font-medium text-sm">{secret.label}</p>
-        <p className="text-gray-800 truncate">{secret.value}</p>
+        {isVisible ? (
+          <p className="text-gray-800 truncate">{secret.value}</p>
+        ) : (
+          <p className="text-gray-800 text-lg truncate">••••••••</p>
+        )}
       </div>
       <div className="flex space-x-1">
         <IconButton icon="ClipboardCopy" onClick={handleCopyValue} />
         <ActionMenu>
-          <ActionMenuItem leftIcon="Eye">Show</ActionMenuItem>
+          <ActionMenuItem
+            onClick={onToggle}
+            leftIcon={isVisible ? "EyeOff" : "Eye"}
+          >
+            {isVisible ? "Hide" : "Show"}
+          </ActionMenuItem>
           <ActionMenuItem leftIcon="ClipboardCopy">Copy</ActionMenuItem>
           <ActionMenuItem leftIcon="Pencil">Edit</ActionMenuItem>
           <ActionMenuItem
