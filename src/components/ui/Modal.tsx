@@ -41,13 +41,10 @@ const Modal: React.FC<ModalProps> = ({
         leave="ease-in duration-200"
         leaveFrom="opacity-100"
         leaveTo="opacity-0"
+        className="fixed inset-0 transition-opacity pointer-events-auto"
+        onClick={onClose}
       >
-        <div
-          className="fixed inset-0 transition-opacity pointer-events-auto"
-          onClick={onClose}
-        >
-          <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-        </div>
+        <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
       </Transition>
 
       <Transition
@@ -58,25 +55,20 @@ const Modal: React.FC<ModalProps> = ({
         leave="ease-in duration-200"
         leaveFrom="opacity-100 translate-y-0 sm:scale-100"
         leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+        className="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full pointer-events-auto"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-headline"
       >
-        <div
-          className="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full pointer-events-auto"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="modal-headline"
-        >
-          <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-            {children}
-          </div>
+        <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">{children}</div>
 
-          <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-            <span className="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
-              {primaryActionSlot}
-            </span>
-            <span className="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
-              {secondaryActionSlot}
-            </span>
-          </div>
+        <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+          <span className="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+            {primaryActionSlot}
+          </span>
+          <span className="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
+            {secondaryActionSlot}
+          </span>
         </div>
       </Transition>
     </div>
