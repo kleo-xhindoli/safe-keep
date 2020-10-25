@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { useAddSecret } from "../hooks/resources/secrets";
+import useCurrentSafeId from "../hooks/useCurrentSafeId";
 import SecretForm, { FormValues } from "./forms/SecretForm";
 import Button from "./ui/Button";
 import Drawer from "./ui/Drawer";
@@ -14,7 +15,8 @@ const SecretFormDrawer: React.FC<SecretFormDrawerProps> = ({
   onClose,
 }) => {
   const submitButtonRef = useRef<HTMLButtonElement>(null);
-  const [addSecret, loading] = useAddSecret("safe-1");
+  const safeId = useCurrentSafeId();
+  const [addSecret, loading] = useAddSecret(safeId || "");
 
   const handleSubmit = async (values: FormValues) => {
     console.log("submitting: ", values);

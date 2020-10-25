@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDeleteSecret } from "../hooks/resources/secrets";
+import useCurrentSafeId from "../hooks/useCurrentSafeId";
 import { useDisclosure } from "../hooks/utils";
 import { Secret } from "../types/secret";
 import SecretListItem from "./SecretListItem";
@@ -11,7 +12,8 @@ interface SecretsListProps {
 }
 
 const SecretsList: React.FC<SecretsListProps> = ({ secrets }) => {
-  const [deleteSecret, isDeleteing] = useDeleteSecret("safe-1");
+  const safeId = useCurrentSafeId();
+  const [deleteSecret, isDeleteing] = useDeleteSecret(safeId || "");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [secretToDelete, setSecretToDelete] = useState<Secret | null>(null);
 
