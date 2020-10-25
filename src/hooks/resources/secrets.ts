@@ -35,6 +35,29 @@ export function useAddSecret(safeId: string) {
   return [addSecret, loading, error] as const;
 }
 
+export function useUpdateSecret(safeId: string) {
+  const secretsRef = firebase.database().ref(`safes/${safeId}/secrets`);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const updateSecret = (id: string, { label, value }: Partial<Secret>) => {
+    return new Promise((resolve, reject) => {
+      setLoading(true);
+      const secretRef = secretsRef.child(id);
+      secretRef.update({ label, value }, (err) => {
+        setLoading(false);
+        if (err) {
+          setError("Could not add a new secret at this time.");
+          return reject(err);
+        }
+        resolve();
+      });
+    });
+  };
+
+  return [updateSecret, loading, error] as const;
+}
+
 export function useDeleteSecret(safeId: string) {
   const secretsRef = firebase.database().ref(`safes/${safeId}/secrets`);
   const [loading, setLoading] = useState(false);

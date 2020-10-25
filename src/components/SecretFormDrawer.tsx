@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { useAddSecret } from "../hooks/resources/secrets";
+import { useAddSecret, useUpdateSecret } from "../hooks/resources/secrets";
 import useCurrentSafeId from "../hooks/useCurrentSafeId";
 import useNotification from "../hooks/useNotification";
 import { Secret } from "../types/secret";
@@ -22,14 +22,15 @@ const SecretFormDrawer: React.FC<SecretFormDrawerProps> = ({
   const submitButtonRef = useRef<HTMLButtonElement>(null);
   const safeId = useCurrentSafeId();
   const { showNotification } = useNotification();
-  const [addSecret, loading] = useAddSecret(safeId || "");
+  const [addSecret, creating] = useAddSecret(safeId || "");
+  const [updateSecret, updating] = useUpdateSecret(safeId || "");
 
   const handleSubmit = async (values: FormValues) => {
     try {
       if (!secret) {
         await addSecret(values);
       } else {
-        console.log("Edit values: ", values);
+        await updateSecret(secret.id, values);
       }
       onClose();
     } catch (e) {
@@ -55,7 +56,7 @@ const SecretFormDrawer: React.FC<SecretFormDrawerProps> = ({
           </Button>
           <Button
             variant="primary"
-            isLoading={loading}
+            isLoading={creating || updating}
             onClick={() => submitButtonRef.current?.click()}
           >
             Save
