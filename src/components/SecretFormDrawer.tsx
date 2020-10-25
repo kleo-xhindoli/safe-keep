@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
-import SecretForm from "./forms/SecretForm";
+import { useAddSecret } from "../hooks/resources/secrets";
+import SecretForm, { FormValues } from "./forms/SecretForm";
 import Button from "./ui/Button";
 import Drawer from "./ui/Drawer";
 
@@ -13,6 +14,17 @@ const SecretFormDrawer: React.FC<SecretFormDrawerProps> = ({
   onClose,
 }) => {
   const submitButtonRef = useRef<HTMLButtonElement>(null);
+  const [addSecret, loading] = useAddSecret("safe-1");
+
+  const handleSubmit = async (values: FormValues) => {
+    console.log("submitting: ", values);
+    try {
+      await addSecret(values);
+      onClose();
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   return (
     <Drawer
@@ -27,6 +39,7 @@ const SecretFormDrawer: React.FC<SecretFormDrawerProps> = ({
           </Button>
           <Button
             variant="primary"
+            isLoading={loading}
             onClick={() => submitButtonRef.current?.click()}
           >
             Save
@@ -34,10 +47,7 @@ const SecretFormDrawer: React.FC<SecretFormDrawerProps> = ({
         </div>
       }
     >
-      <SecretForm
-        ref={submitButtonRef}
-        onSubmit={(values) => console.log(values)}
-      />
+      <SecretForm ref={submitButtonRef} onSubmit={handleSubmit} />
     </Drawer>
   );
 };
