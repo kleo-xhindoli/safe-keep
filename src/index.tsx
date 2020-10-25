@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import config, { env } from "./config";
 import * as firebase from "firebase/app";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+import NotificationProvider from "./components/providers/NotificationProvider";
 
 firebase.initializeApp(config.firebase);
 
@@ -15,7 +16,9 @@ if (env === "local") {
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <NotificationProvider>
+      <App />
+    </NotificationProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

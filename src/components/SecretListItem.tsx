@@ -1,11 +1,11 @@
 import classNames from "classnames";
-import React, { useState } from "react";
-import { useDisclosure } from "../hooks/utils";
+import React from "react";
+import useNotification from "../hooks/useNotification";
 import { Secret } from "../types/secret";
 import ActionMenu from "./ui/ActionMenu";
 import ActionMenuItem from "./ui/ActionMenuItem";
 import IconButton from "./ui/IconButton";
-import Notification, { NotificationType } from "./ui/Notification";
+import { NotificationType } from "./ui/Notification";
 
 interface SecretListItemProps {
   secret: Secret;
@@ -18,20 +18,16 @@ const SecretListItem: React.FC<SecretListItemProps> = ({
   onDelete,
   isLast,
 }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [notificationOpts, setNotificationOpts] = useState({
-    message: "",
-    type: NotificationType.Success,
-  });
+  const { showNotification } = useNotification();
 
   const copyValue = async () => {
     try {
       await navigator.clipboard.writeText(secret.value);
-      setNotificationOpts({
-        message: "Copied",
+
+      showNotification({
+        title: "Copied",
         type: NotificationType.Success,
       });
-      onOpen();
     } catch (e) {
       console.error(e);
     }
@@ -49,11 +45,10 @@ const SecretListItem: React.FC<SecretListItemProps> = ({
         copyValue();
         return;
       } else if (permissionStatus.state === "denied") {
-        setNotificationOpts({
-          message: "Could not copy to your device",
+        showNotification({
+          title: "Could not copy to your device",
           type: NotificationType.Error,
         });
-        onOpen();
       }
 
       // Listen for changes to the permission state
@@ -92,13 +87,6 @@ const SecretListItem: React.FC<SecretListItemProps> = ({
           </ActionMenuItem>
         </ActionMenu>
       </div>
-
-      <Notification
-        isVisible={isOpen}
-        onDismiss={onClose}
-        title={notificationOpts.message}
-        type={notificationOpts.type}
-      />
     </div>
   );
 };
