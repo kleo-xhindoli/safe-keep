@@ -8,7 +8,7 @@ const validationSchema = Yup.object({
   value: Yup.string().required("This field is required"),
 }).required();
 
-type FormValues = Yup.InferType<typeof validationSchema>;
+export type FormValues = Yup.InferType<typeof validationSchema>;
 
 interface SecretFormProps {
   onSubmit?: (values: FormValues) => void;
@@ -34,14 +34,14 @@ const SecretForm = React.forwardRef<HTMLButtonElement, SecretFormProps>(
           <form onSubmit={handleSubmit}>
             <div className="space-y-4">
               <InputField
-                name="value"
-                label="Value"
-                placeholder="The value of the secret to store"
-              />
-              <InputField
                 name="label"
                 label="Label"
                 placeholder="A label for the secret"
+              />
+              <InputField
+                name="value"
+                label="Value"
+                placeholder="The value of the secret to store"
               />
             </div>
             <button type="submit" ref={ref} />
