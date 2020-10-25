@@ -7,6 +7,7 @@ import config, { env } from "./config";
 import * as firebase from "firebase/app";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import NotificationProvider from "./components/providers/NotificationProvider";
+import SessionProvider from "./components/providers/SessionProvider";
 
 firebase.initializeApp(config.firebase);
 
@@ -16,9 +17,11 @@ if (env === "local") {
 
 ReactDOM.render(
   <React.StrictMode>
-    <NotificationProvider>
-      <App />
-    </NotificationProvider>
+    <SessionProvider>
+      <NotificationProvider>
+        <App />
+      </NotificationProvider>
+    </SessionProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
