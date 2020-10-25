@@ -3,9 +3,9 @@ import { Redirect } from "react-router-dom";
 import Loader from "../components/ui/Loader";
 import { useSafes } from "../hooks/resources/safes";
 
-interface HomeProps {}
+interface HomePageProps {}
 
-const Home: React.FC<HomeProps> = () => {
+const HomePage: React.FC<HomePageProps> = () => {
   const [safes, loading] = useSafes();
   if (loading) {
     return (
@@ -17,4 +17,4 @@ const Home: React.FC<HomeProps> = () => {
   return <Redirect to={`/${safes?.[0].id}`} />;
 };
 
-export default Home;
+export default HomePage;

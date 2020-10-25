@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Icon from "./components/ui/Icon";
-import Home from "./pages/Home";
+import HomePage from "./pages/HomePage";
 import SecretsPage from "./pages/SecretsPage";
 
 interface AppProps {}
@@ -18,7 +18,7 @@ const App: React.FC<AppProps> = () => {
         <Router>
           <Switch>
             <Route path="/" exact>
-              <Home />
+              <HomePage />
             </Route>
             <Route path="/:safeId">
               <SecretsPage />
