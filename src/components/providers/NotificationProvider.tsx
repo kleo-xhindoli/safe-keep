@@ -21,21 +21,28 @@ export const NotificationContext = React.createContext<
 
 interface NotificationProviderProps {}
 
-const NotificationProvider: React.FC<NotificationProviderProps> = () => {
+const NotificationProvider: React.FC<NotificationProviderProps> = ({
+  children,
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [currentOptions, setCurrentOptions] = useState<NotificationOptions>({
+  const [currentOptions, setCurrentOptions] = useState<
+    NotificationOptions & { id: string }
+  >({
+    id: "0",
     title: "",
     duration: 3000,
     type: NotificationType.Info,
   });
   const showNotification = (opts: NotificationOptions) => {
-    setCurrentOptions(currentOptions);
+    const id = `${Date.now()}-${Math.random()}`;
+    setCurrentOptions({ ...opts, id });
     onOpen();
   };
 
   return (
     <NotificationContext.Provider value={{ showNotification }}>
       <Notification
+        key={currentOptions.id}
         isVisible={isOpen}
         onDismiss={onClose}
         title={currentOptions.title}
@@ -43,6 +50,7 @@ const NotificationProvider: React.FC<NotificationProviderProps> = () => {
         duration={currentOptions.duration}
         type={currentOptions.type}
       />
+      {children}
     </NotificationContext.Provider>
   );
 };
