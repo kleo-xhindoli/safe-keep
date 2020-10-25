@@ -1,12 +1,17 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute";
 import Icon from "./components/ui/Icon";
+import useSession from "./hooks/useSession";
+import AuthPage from "./pages/AuthPage";
 import HomePage from "./pages/HomePage";
 import SecretsPage from "./pages/SecretsPage";
 
 interface AppProps {}
 
 const App: React.FC<AppProps> = () => {
+  const { isAuthenticated } = useSession();
+
   return (
     <div className="flex justify-center bg-gray-100">
       <div className="container px-4 py-12 min-h-screen">
@@ -17,12 +22,24 @@ const App: React.FC<AppProps> = () => {
 
         <Router>
           <Switch>
-            <Route path="/" exact>
+            <ProtectedRoute
+              path="/"
+              condition={isAuthenticated}
+              redirect="/auth"
+              exact
+            >
               <HomePage />
+            </ProtectedRoute>
+            <Route path="/auth">
+              <AuthPage />
             </Route>
-            <Route path="/:safeId">
+            <ProtectedRoute
+              condition={isAuthenticated}
+              redirect="/auth"
+              path="/:safeId"
+            >
               <SecretsPage />
-            </Route>
+            </ProtectedRoute>
           </Switch>
         </Router>
       </div>
