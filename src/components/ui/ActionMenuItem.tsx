@@ -2,10 +2,11 @@ import React from "react";
 import { Menu } from "@headlessui/react";
 import cn from "classnames";
 import Icon from "./Icon";
+import { IconName } from "../../utils/icons";
 
 interface ActionMenuItemProps {
   as?: "a" | "button" | "div";
-  leftIcon?: string;
+  leftIcon?: IconName;
   iconClassName?: string;
   className?: string;
   onClick?: (e: React.MouseEvent) => any;

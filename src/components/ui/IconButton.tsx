@@ -2,11 +2,12 @@ import React, { HTMLProps } from "react";
 import cn from "classnames";
 import Icon from "./Icon";
 import { Assign } from "../../types/utils";
+import { IconName } from "../../utils/icons";
 
 type IconButtonProps = Assign<
   HTMLProps<HTMLButtonElement>,
   {
-    icon: string;
+    icon: IconName;
     size?: "xs" | "sm" | "md" | "lg" | "xl";
     className?: string;
     type?: "button" | "submit";
