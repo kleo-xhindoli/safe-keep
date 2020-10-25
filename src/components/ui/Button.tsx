@@ -3,14 +3,15 @@ import cn from "classnames";
 import Icon from "./Icon";
 import Loader from "./Loader";
 import { Assign } from "../../types/utils";
+import { IconName } from "../../utils/icons";
 
 type ButtonProps = Assign<
   HTMLProps<HTMLButtonElement>,
   {
     variant?: "primary" | "secondary" | "danger" | "outline";
     size?: "xs" | "sm" | "md" | "lg" | "xl";
-    leftIcon?: string;
-    rightIcon?: string;
+    leftIcon?: IconName;
+    rightIcon?: IconName;
     className?: string;
     iconClassName?: string;
     type?: "button" | "submit";

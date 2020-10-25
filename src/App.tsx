@@ -5,7 +5,6 @@ import Icon from "./components/ui/Icon";
 import { useSecrets } from "./hooks/resources/secrets";
 import SecretFormDrawer from "./components/SecretFormDrawer";
 import SecretsList from "./components/SecretsList";
-import Modal from "./components/ui/Modal";
 
 interface AppProps {}
 
@@ -32,15 +31,7 @@ const App: React.FC<AppProps> = () => {
         </div>
         <SecretsList secrets={secrets || []} />
       </div>
-      <SecretFormDrawer isOpen={false} onClose={onClose} />
-      <Modal
-        isOpen={isOpen}
-        onClose={onClose}
-        secondaryActionSlot={<Button onClick={onClose}>Close</Button>}
-        primaryActionSlot={<Button variant="danger">Delete</Button>}
-      >
-        This is a modal...
-      </Modal>
+      <SecretFormDrawer isOpen={isOpen} onClose={onClose} />
     </div>
   );
 };
