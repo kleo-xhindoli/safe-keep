@@ -1,4 +1,5 @@
 import { Transition } from "@headlessui/react";
+import classNames from "classnames";
 import React, { useEffect } from "react";
 import Icon from "./Icon";
 import IconButton from "./IconButton";
@@ -68,7 +69,12 @@ const Notification: React.FC<NotificationProps> = ({
       >
         <div className="rounded-lg shadow-xs overflow-hidden">
           <div className="p-4">
-            <div className="flex items-start">
+            <div
+              className={classNames("flex", {
+                "items-start": subtitle,
+                "items-center": !subtitle,
+              })}
+            >
               <div className="flex-shrink-0">
                 <Icon
                   className={`h-5 w-5 ${iconColorMap[type]}`}
