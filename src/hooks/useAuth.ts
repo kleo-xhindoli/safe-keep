@@ -12,7 +12,7 @@ async function signInWithGithub() {
   const provider = new firebase.auth.GithubAuthProvider();
   provider.addScope("email");
   await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-  await firebase.auth().signInWithPopup(provider);
+  await firebase.auth().signInWithRedirect(provider);
 }
 
 async function _signOut() {
