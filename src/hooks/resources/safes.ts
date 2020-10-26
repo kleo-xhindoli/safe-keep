@@ -1,42 +1,45 @@
 import * as firebase from "firebase/app";
-import "firebase/database";
+import "firebase/firestore";
 import { Safe } from "../../types/safe";
-import { useList } from "react-firebase-hooks/database";
-import { useComputed } from "../utils";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 import useSession from "../useSession";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 export function useSafes() {
   const { currentUser } = useSession();
-  const safesRef = firebase.database().ref(`users/${currentUser?.uid}/safes`);
-  const [snapshot, loading, error] = useList(safesRef);
 
-  const safes: Safe[] | undefined = useComputed(() => {
-    return snapshot?.map((el) => ({ id: el.key, ...el.val() }));
-  }, [snapshot]);
+  const [safes, loading, error] = useCollectionData<Safe>(
+    firebase.firestore().collection(`users/${currentUser?.uid}/safes`),
+    { idField: "id" }
+  );
 
   return [safes, loading, error] as const;
 }
 
 export function useAddSafe() {
   const { currentUser } = useSession();
-  const safesRef = firebase.database().ref(`users/${currentUser?.uid}/safes`);
-
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const addSafe = async (newSafe: Omit<Safe, "id">) => {
-    setLoading(true);
-    try {
-      const pushedObject = await safesRef.push({ ...newSafe });
-      return pushedObject?.key;
-    } catch (e) {
-      setError("Could not add a new secret at this time.");
-      throw e;
-    } finally {
-      setLoading(false);
-    }
-  };
+  const addSafe = useCallback(
+    async (newSafe: Omit<Safe, "id">) => {
+      setLoading(true);
+      try {
+        const result = await firebase
+          .firestore()
+          .collection(`users/${currentUser?.uid}/safes`)
+          .add({ ...newSafe });
+
+        return result.id;
+      } catch (e) {
+        setError("Could not add a new secret at this time.");
+        throw e;
+      } finally {
+        setLoading(false);
+      }
+    },
+    [currentUser]
+  );
 
   return [addSafe, loading, error] as const;
 }

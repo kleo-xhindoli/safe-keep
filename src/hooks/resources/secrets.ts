@@ -1,100 +1,103 @@
 import * as firebase from "firebase/app";
-import "firebase/database";
-import { useState } from "react";
-import { useListVals } from "react-firebase-hooks/database";
+import "firebase/firestore";
+import { useCallback, useState } from "react";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 import { Secret } from "../../types/secret";
 import useSession from "../useSession";
 
 export function useSecrets(safeId: string) {
   const { currentUser } = useSession();
-  const secretsRef = firebase
-    .database()
-    .ref(`users/${currentUser?.uid}/safes/${safeId}/secrets`);
-
-  const [safes, loading, error] = useListVals<Secret>(secretsRef, {
-    keyField: "id",
-  });
+  const [safes, loading, error] = useCollectionData<Secret>(
+    firebase
+      .firestore()
+      .collection(`users/${currentUser?.uid}/safes/${safeId}/secrets`),
+    { idField: "id" }
+  );
 
   return [safes, loading, error] as const;
 }
 
 export function useAddSecret(safeId: string) {
   const { currentUser } = useSession();
-  const secretsRef = firebase
-    .database()
-    .ref(`users/${currentUser?.uid}/safes/${safeId}/secrets`);
-
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const addSecret = (newSecret: Omit<Secret, "id">) => {
-    return new Promise((resolve, reject) => {
+  const addSecret = useCallback(
+    async (newSecret: Omit<Secret, "id">) => {
       setLoading(true);
-      secretsRef.push({ ...newSecret }, (err) => {
+      try {
+        const result = await firebase
+          .firestore()
+          .collection(`users/${currentUser?.uid}/safes/${safeId}/secrets`)
+          .add({ ...newSecret });
+
         setLoading(false);
-        if (err) {
-          setError("Could not add a new secret at this time.");
-          return reject(err);
-        }
-        resolve();
-      });
-    });
-  };
+        return result.id;
+      } catch (e) {
+        setError(e.message);
+        setLoading(false);
+
+        throw e;
+      }
+    },
+    [currentUser, safeId]
+  );
 
   return [addSecret, loading, error] as const;
 }
 
 export function useUpdateSecret(safeId: string) {
   const { currentUser } = useSession();
-  const secretsRef = firebase
-    .database()
-    .ref(`users/${currentUser?.uid}/safes/${safeId}/secrets`);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const updateSecret = (id: string, { label, value }: Partial<Secret>) => {
-    return new Promise((resolve, reject) => {
+  const updateSecret = useCallback(
+    async (secretId: string, { label, value }: Partial<Secret>) => {
       setLoading(true);
-      const secretRef = secretsRef.child(id);
-      secretRef.update({ label, value }, (err) => {
+      try {
+        await firebase
+          .firestore()
+          .doc(`users/${currentUser?.uid}/safes/${safeId}/secrets/${secretId}`)
+          .update({ label, value });
+
         setLoading(false);
-        if (err) {
-          setError("Could not add a new secret at this time.");
-          return reject(err);
-        }
-        resolve();
-      });
-    });
-  };
+      } catch (e) {
+        setError(e.message);
+        setLoading(false);
+
+        throw e;
+      }
+    },
+    [currentUser, safeId]
+  );
 
   return [updateSecret, loading, error] as const;
 }
 
 export function useDeleteSecret(safeId: string) {
   const { currentUser } = useSession();
-  const secretsRef = firebase
-    .database()
-    .ref(`users/${currentUser?.uid}/safes/${safeId}/secrets`);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const deleteSecret = (secretId: string) => {
-    return new Promise((resolve, reject) => {
-      const secretRef = secretsRef.child(secretId);
-
+  const deleteSecret = useCallback(
+    async (secretId: string) => {
       setLoading(true);
-      secretRef.remove((err) => {
+      try {
+        await firebase
+          .firestore()
+          .doc(`users/${currentUser?.uid}/safes/${safeId}/secrets/${secretId}`)
+          .delete();
+
         setLoading(false);
-        if (err) {
-          setError("Could not add a new secret at this time.");
-          console.log(err);
-          return reject(err);
-        }
-        resolve();
-      });
-    });
-  };
+      } catch (e) {
+        setError(e.message);
+        setLoading(false);
+        throw e;
+      }
+    },
+    [currentUser, safeId]
+  );
 
   return [deleteSecret, loading, error] as const;
 }
