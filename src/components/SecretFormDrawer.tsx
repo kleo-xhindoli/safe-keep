@@ -47,8 +47,12 @@ const SecretFormDrawer: React.FC<SecretFormDrawerProps> = ({
     <Drawer
       isOpen={isOpen}
       onClose={onClose}
-      title="Add a new item"
-      subtitle="Add a new item to the safe"
+      title={secret ? `Edit ${secret.label}` : "Add a new Secret"}
+      subtitle={
+        secret
+          ? `Update values for ${secret.label}`
+          : "Add a new Secret to the safe"
+      }
       footer={
         <div>
           <Button className="mr-2" onClick={onClose}>
