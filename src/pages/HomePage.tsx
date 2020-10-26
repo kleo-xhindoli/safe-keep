@@ -18,6 +18,7 @@ const HomePage: React.FC<HomePageProps> = () => {
     const init = async () => {
       // if there aren't any safes for this user, create a default one
       if (!loading && !safes?.length) {
+        debugger;
         const newSafeId = await addSafe({
           name: `${currentUser?.displayName}'s default Safe`,
           secrets: {},
