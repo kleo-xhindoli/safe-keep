@@ -3,6 +3,7 @@ import "firebase/firestore";
 import { useCallback, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { Secret } from "../../types/secret";
+import { awaitableOffline } from "../../utils/network";
 import useSession from "../useSession";
 
 export function useSecrets(safeId: string) {
@@ -26,13 +27,15 @@ export function useAddSecret(safeId: string) {
     async (newSecret: Omit<Secret, "id">) => {
       setLoading(true);
       try {
-        const result = await firebase
-          .firestore()
-          .collection(`users/${currentUser?.uid}/safes/${safeId}/secrets`)
-          .add({ ...newSecret });
+        const result = await awaitableOffline(
+          firebase
+            .firestore()
+            .collection(`users/${currentUser?.uid}/safes/${safeId}/secrets`)
+            .add({ ...newSecret })
+        );
 
         setLoading(false);
-        return result.id;
+        return result?.id;
       } catch (e) {
         setError(e.message);
         setLoading(false);
@@ -56,10 +59,14 @@ export function useUpdateSecret(safeId: string) {
     async (secretId: string, { label, value }: Partial<Secret>) => {
       setLoading(true);
       try {
-        await firebase
-          .firestore()
-          .doc(`users/${currentUser?.uid}/safes/${safeId}/secrets/${secretId}`)
-          .update({ label, value });
+        await awaitableOffline(
+          firebase
+            .firestore()
+            .doc(
+              `users/${currentUser?.uid}/safes/${safeId}/secrets/${secretId}`
+            )
+            .update({ label, value })
+        );
 
         setLoading(false);
       } catch (e) {
@@ -84,10 +91,14 @@ export function useDeleteSecret(safeId: string) {
     async (secretId: string) => {
       setLoading(true);
       try {
-        await firebase
-          .firestore()
-          .doc(`users/${currentUser?.uid}/safes/${safeId}/secrets/${secretId}`)
-          .delete();
+        await awaitableOffline(
+          firebase
+            .firestore()
+            .doc(
+              `users/${currentUser?.uid}/safes/${safeId}/secrets/${secretId}`
+            )
+            .delete()
+        );
 
         setLoading(false);
       } catch (e) {

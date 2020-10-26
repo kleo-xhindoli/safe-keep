@@ -33,6 +33,7 @@ const SessionProvider: React.FC<SessionProviderProps> = ({ children }) => {
 
   useEffect(() => {
     const callback = (state: User | null) => {
+      console.log("Auth state changed ", state);
       setCurrentUser(state);
       if (!isAppInitialized) setIsAppInitialized(true);
     };

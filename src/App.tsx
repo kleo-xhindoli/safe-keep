@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Loader from "./components/ui/Loader";
@@ -6,11 +6,29 @@ import useSession from "./hooks/useSession";
 import AuthPage from "./pages/AuthPage";
 import HomePage from "./pages/HomePage";
 import SecretsPage from "./pages/SecretsPage";
+import { isOnline } from "./utils/network";
+import * as firebase from "firebase/app";
+import "firebase/firestore";
 
 interface AppProps {}
 
 const App: React.FC<AppProps> = () => {
   const { isAuthenticated, isAppInitialized } = useSession();
+
+  useEffect(() => {
+    if (isOnline()) {
+      firebase.firestore().enableNetwork();
+    } else {
+      firebase.firestore().disableNetwork();
+    }
+
+    window.addEventListener("offline", () => {
+      firebase.firestore().disableNetwork();
+    });
+    window.addEventListener("online", () => {
+      firebase.firestore().enableNetwork();
+    });
+  }, []);
 
   if (!isAppInitialized) {
     return (

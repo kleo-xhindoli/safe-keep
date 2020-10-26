@@ -5,11 +5,27 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import config, { env } from "./config";
 import * as firebase from "firebase/app";
+import "firebase/firestore";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import NotificationProvider from "./components/providers/NotificationProvider";
 import SessionProvider from "./components/providers/SessionProvider";
 
 firebase.initializeApp(config.firebase);
+firebase
+  .firestore()
+  .enablePersistence()
+  .catch(function (err) {
+    console.error("Could not enable offline due to: ", err.code);
+    if (err.code === "failed-precondition") {
+      // Multiple tabs open, persistence can only be enabled
+      // in one tab at a a time.
+      // ...
+    } else if (err.code === "unimplemented") {
+      // The current browser does not support all of the
+      // features required to enable persistence
+      // ...
+    }
+  });
 
 if (env === "local") {
   window.firebase = firebase;
