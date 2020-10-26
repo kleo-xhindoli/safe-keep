@@ -26,7 +26,17 @@ const AuthPage: React.FC<AuthPageProps> = () => {
   return (
     <div className="w-full h-full flex items-center justify-center">
       <div className="w-full bg-white rounded-md px-8 py-12 -mt-16 shadow max-w-md">
-        <Heading as="h2" className="text-center text-xl">
+        <div className="flex justify-center mb-8">
+          <img
+            alt="SafeKeep Logo"
+            src={process.env.PUBLIC_URL + "/LogoSymbol.png"}
+            className="w-20"
+          />
+        </div>
+        <Heading
+          as="h2"
+          className="text-center text-xl font-medium text-gray-900"
+        >
           Welcome to SafeKeep
         </Heading>
         <p className="text-center text-gray-500 mt-2">
