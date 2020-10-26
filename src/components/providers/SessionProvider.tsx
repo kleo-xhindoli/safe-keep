@@ -33,8 +33,8 @@ const SessionProvider: React.FC<SessionProviderProps> = ({ children }) => {
 
   useEffect(() => {
     const callback = (state: User | null) => {
-      if (!isAppInitialized) setIsAppInitialized(true);
       setCurrentUser(state);
+      if (!isAppInitialized) setIsAppInitialized(true);
     };
     firebase.auth().onAuthStateChanged(callback);
   }, [setCurrentUser, isAppInitialized]);
