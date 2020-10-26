@@ -27,8 +27,9 @@ const SecretListItem: React.FC<SecretListItemProps> = ({
       await navigator.clipboard.writeText(secret.value);
 
       showNotification({
-        title: "Copied",
+        title: `Copied ${secret.label}`,
         type: NotificationType.Success,
+        duration: 10000000,
       });
     } catch (e) {
       console.error(e);
@@ -48,7 +49,8 @@ const SecretListItem: React.FC<SecretListItemProps> = ({
         return;
       } else if (permissionStatus.state === "denied") {
         showNotification({
-          title: "Could not copy to your device",
+          title: "Failed to copy",
+          subtitle: "Could not copy to your device",
           type: NotificationType.Error,
         });
       }
