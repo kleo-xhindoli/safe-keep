@@ -23,9 +23,11 @@ const App: React.FC<AppProps> = () => {
     }
 
     window.addEventListener("offline", () => {
+      console.log("Went offline");
       firebase.firestore().disableNetwork();
     });
     window.addEventListener("online", () => {
+      console.log("Went online");
       firebase.firestore().enableNetwork();
     });
   }, []);
