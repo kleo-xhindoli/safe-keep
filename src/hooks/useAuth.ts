@@ -1,8 +1,6 @@
 import * as firebase from "firebase/app";
 import "firebase/auth";
-import { useCallback, useEffect, useState } from "react";
-import { User } from "../types/user";
-import useSession from "./useSession";
+import { useCallback, useState } from "react";
 
 async function signInWithGoogle() {
   const provider = new firebase.auth.GoogleAuthProvider();
@@ -17,14 +15,6 @@ async function _signOut() {
 export default function useAuth() {
   const [isSigning, setIsSigning] = useState(false);
   const [error, setError] = useState("");
-  const { setCurrentUser } = useSession();
-
-  useEffect(() => {
-    const callback = (state: User | null) => {
-      setCurrentUser(state);
-    };
-    firebase.auth().onAuthStateChanged(callback);
-  }, [setCurrentUser]);
 
   const withGoogle = useCallback(async () => {
     try {
