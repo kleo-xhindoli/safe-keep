@@ -29,7 +29,6 @@ const SecretListItem: React.FC<SecretListItemProps> = ({
       showNotification({
         title: `Copied ${secret.label}`,
         type: NotificationType.Success,
-        duration: 10000000,
       });
     } catch (e) {
       console.error(e);
