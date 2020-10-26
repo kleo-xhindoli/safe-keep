@@ -25,7 +25,7 @@ const SecretsPage: React.FC<SecretsPageProps> = () => {
   const history = useHistory();
   const editSecretId = useQueryParams().get("edit");
 
-  const [secrets] = useSecrets(safeId || "");
+  const [secrets, loading] = useSecrets(safeId || "");
   const editSecret = useComputed(
     () => secrets?.find((s) => s.id === editSecretId),
     [secrets, editSecretId]
@@ -59,7 +59,15 @@ const SecretsPage: React.FC<SecretsPageProps> = () => {
           Add new Secret
         </Button>
       </div>
-      <SecretsList secrets={secrets || []} />
+      {secrets?.length ? (
+        <SecretsList secrets={secrets || []} />
+      ) : (
+        !loading && (
+          <p className="mt-12 text-xl text-gray-500 text-center">
+            You have not saved any secrets
+          </p>
+        )
+      )}
 
       <SecretFormDrawer isOpen={isCreatePanelOpen} onClose={closeCreatePanel} />
       {editSecret && (
