@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Icon from "./components/ui/Icon";
 import Loader from "./components/ui/Loader";
 import useSession from "./hooks/useSession";
 import AuthPage from "./pages/AuthPage";
