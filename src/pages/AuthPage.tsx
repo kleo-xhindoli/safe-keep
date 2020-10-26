@@ -8,13 +8,13 @@ import useSession from "../hooks/useSession";
 interface AuthPageProps {}
 
 const AuthPage: React.FC<AuthPageProps> = () => {
-  const { isSigning, withGoogle, error } = useAuth();
+  const { isSigning, withGoogle, withGithub, error } = useAuth();
   const { isAuthenticated } = useSession();
   const history = useHistory();
 
-  const handleSignIn = async () => {
+  const handleSignIn = async (providerSignIn: () => Promise<any>) => {
     try {
-      await withGoogle();
+      await providerSignIn();
       history.push("/");
     } catch {}
   };
@@ -33,14 +33,22 @@ const AuthPage: React.FC<AuthPageProps> = () => {
           Please sign in with one of the following options
         </p>
 
-        <div className="mt-8">
+        <div className="mt-8 space-y-4">
           <Button
             className="w-full"
-            onClick={handleSignIn}
+            onClick={() => handleSignIn(withGoogle)}
             isLoading={isSigning}
             leftIcon="Google"
           >
             Sign in with Google
+          </Button>
+          <Button
+            className="w-full"
+            onClick={() => handleSignIn(withGithub)}
+            isLoading={isSigning}
+            leftIcon="Github"
+          >
+            Sign in with Github
           </Button>
         </div>
         {error && (

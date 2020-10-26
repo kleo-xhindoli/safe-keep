@@ -8,6 +8,13 @@ async function signInWithGoogle() {
   await firebase.auth().signInWithRedirect(provider);
 }
 
+async function signInWithGithub() {
+  const provider = new firebase.auth.GithubAuthProvider();
+  provider.addScope("email");
+  await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+  await firebase.auth().signInWithPopup(provider);
+}
+
 async function _signOut() {
   return firebase.auth().signOut();
 }
@@ -29,8 +36,22 @@ export default function useAuth() {
     }
   }, []);
 
+  const withGithub = useCallback(async () => {
+    try {
+      setIsSigning(true);
+      await signInWithGithub();
+      setIsSigning(false);
+    } catch (e) {
+      console.log(e);
+      setIsSigning(false);
+      setError(e.message);
+      throw e;
+    }
+  }, []);
+
   return {
     withGoogle,
+    withGithub,
     signOut: _signOut,
     isSigning,
     error,
