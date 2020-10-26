@@ -85,11 +85,11 @@ const SecretListItem: React.FC<SecretListItemProps> = ({
           >
             {isVisible ? "Hide" : "Show"}
           </ActionMenuItem>
-          <ActionMenuItem onClick={handleCopyValue} leftIcon="ClipboardCopy">
-            Copy
-          </ActionMenuItem>
           <ActionMenuItem to={`?edit=${secret.id}`} leftIcon="Pencil">
             Edit
+          </ActionMenuItem>
+          <ActionMenuItem onClick={handleCopyValue} leftIcon="ClipboardCopy">
+            Copy
           </ActionMenuItem>
           <ActionMenuItem
             as="button"

@@ -4,5 +4,5 @@ export interface Safe {
   id: string;
   name: string;
 
-  secrets: Secret[];
+  secrets: Record<string, Secret>;
 }

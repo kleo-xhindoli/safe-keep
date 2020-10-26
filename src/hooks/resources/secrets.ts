@@ -3,9 +3,14 @@ import "firebase/database";
 import { useState } from "react";
 import { useListVals } from "react-firebase-hooks/database";
 import { Secret } from "../../types/secret";
+import useSession from "../useSession";
 
 export function useSecrets(safeId: string) {
-  const secretsRef = firebase.database().ref(`safes/${safeId}/secrets`);
+  const { currentUser } = useSession();
+  const secretsRef = firebase
+    .database()
+    .ref(`users/${currentUser?.uid}/safes/${safeId}/secrets`);
+
   const [safes, loading, error] = useListVals<Secret>(secretsRef, {
     keyField: "id",
   });
@@ -14,7 +19,11 @@ export function useSecrets(safeId: string) {
 }
 
 export function useAddSecret(safeId: string) {
-  const secretsRef = firebase.database().ref(`safes/${safeId}/secrets`);
+  const { currentUser } = useSession();
+  const secretsRef = firebase
+    .database()
+    .ref(`users/${currentUser?.uid}/safes/${safeId}/secrets`);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -36,7 +45,11 @@ export function useAddSecret(safeId: string) {
 }
 
 export function useUpdateSecret(safeId: string) {
-  const secretsRef = firebase.database().ref(`safes/${safeId}/secrets`);
+  const { currentUser } = useSession();
+  const secretsRef = firebase
+    .database()
+    .ref(`users/${currentUser?.uid}/safes/${safeId}/secrets`);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -59,7 +72,10 @@ export function useUpdateSecret(safeId: string) {
 }
 
 export function useDeleteSecret(safeId: string) {
-  const secretsRef = firebase.database().ref(`safes/${safeId}/secrets`);
+  const { currentUser } = useSession();
+  const secretsRef = firebase
+    .database()
+    .ref(`users/${currentUser?.uid}/safes/${safeId}/secrets`);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
