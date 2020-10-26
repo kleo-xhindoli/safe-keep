@@ -24,27 +24,29 @@ const AuthPage: React.FC<AuthPageProps> = () => {
   }
 
   return (
-    <div className="w-full bg-white rounded-md p-8 shadow">
-      <Heading as="h2" className="text-center text-xl">
-        Welcome to SafeKeep
-      </Heading>
-      <p className="text-center text-gray-500 mt-2">
-        Please sign in with one of the following options
-      </p>
+    <div className="w-full h-full flex items-center justify-center">
+      <div className="w-full bg-white rounded-md px-8 py-12 -mt-16 shadow max-w-md">
+        <Heading as="h2" className="text-center text-xl">
+          Welcome to SafeKeep
+        </Heading>
+        <p className="text-center text-gray-500 mt-2">
+          Please sign in with one of the following options
+        </p>
 
-      <div className="mt-8">
-        <Button
-          className="w-full"
-          onClick={handleSignIn}
-          isLoading={isSigning}
-          leftIcon="Google"
-        >
-          Sign in with Google
-        </Button>
+        <div className="mt-8">
+          <Button
+            className="w-full"
+            onClick={handleSignIn}
+            isLoading={isSigning}
+            leftIcon="Google"
+          >
+            Sign in with Google
+          </Button>
+        </div>
+        {error && (
+          <p className="text-center text-sm text-red-500 mt-2">{error}</p>
+        )}
       </div>
-      {error && (
-        <p className="text-center text-sm text-red-500 mt-2">{error}</p>
-      )}
     </div>
   );
 };

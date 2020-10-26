@@ -7,16 +7,7 @@ import useSession from "./useSession";
 async function signInWithGoogle() {
   const provider = new firebase.auth.GoogleAuthProvider();
   await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-  const result = await firebase.auth().signInWithPopup(provider);
-
-  // @ts-expect-error (bad typings)
-  const accessToken = result.credential?.accessToken as string;
-  const user = result.user;
-
-  return {
-    accessToken,
-    user,
-  };
+  await firebase.auth().signInWithRedirect(provider);
 }
 
 async function _signOut() {
@@ -38,9 +29,8 @@ export default function useAuth() {
   const withGoogle = useCallback(async () => {
     try {
       setIsSigning(true);
-      const result = await signInWithGoogle();
+      await signInWithGoogle();
       setIsSigning(false);
-      return result;
     } catch (e) {
       console.log(e);
       setIsSigning(false);
