@@ -24,7 +24,7 @@
     "react-scripts": "4.0.0",
     "typescript": "^4.0.3",
     "web-vitals": "^0.2.4",
-    "workbox-back`ground-sync": "^5.1.3",
+    "workbox-background-sync": "^5.1.3",
     "workbox-broadcast-update": "^5.1.3",
     "workbox-cacheable-response": "^5.1.3",
     "workbox-core": "^5.1.3",
@@ -35,7 +35,7 @@
     "workbox-range-requests": "^5.1.3",
     "workbox-routing": "^5.1.3",
     "workbox-strategies": "^5.1.3",
-    "workbox-stre`ams": "^5.1.3",
+    "workbox-streams": "^5.1.3",
     "yup": "^0.29.3"
   },
   "scripts": {
