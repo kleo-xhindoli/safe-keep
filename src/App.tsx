@@ -25,8 +25,11 @@ const App: React.FC<AppProps> = () => {
     <div className="flex justify-center bg-gray-100">
       <div className="container max-w-xl px-4 py-12 min-h-screen">
         <div className="flex justify-center items-center mb-6">
-          <Icon name="LockClosedSolid" className="mr-1 w-6 h-6" />
-          <p className="text-2xl text-center font-semibold">SafeKeep</p>
+          <img
+            alt="SafeKeep Logo"
+            src={process.env.PUBLIC_URL + "/LogoHorizontal.png"}
+            className="w-52"
+          />
         </div>
 
         <Router>
