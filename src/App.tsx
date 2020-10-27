@@ -6,7 +6,7 @@ import useSession from "./hooks/useSession";
 import AuthPage from "./pages/AuthPage";
 import HomePage from "./pages/HomePage";
 import SecretsPage from "./pages/SecretsPage";
-import { isOnline } from "./utils/network";
+import { isOnline, onNetworkChange } from "./utils/network";
 import * as firebase from "firebase/app";
 import "firebase/firestore";
 
@@ -22,14 +22,17 @@ const App: React.FC<AppProps> = () => {
       firebase.firestore().disableNetwork();
     }
 
-    window.addEventListener("offline", () => {
-      console.log("Went offline");
-      firebase.firestore().disableNetwork();
+    const cleanup = onNetworkChange((status) => {
+      if (status === "online") {
+        console.log("Went online");
+        firebase.firestore().enableNetwork();
+      } else {
+        console.log("Went offline");
+        firebase.firestore().disableNetwork();
+      }
     });
-    window.addEventListener("online", () => {
-      console.log("Went online");
-      firebase.firestore().enableNetwork();
-    });
+
+    return cleanup;
   }, []);
 
   if (!isAppInitialized) {
