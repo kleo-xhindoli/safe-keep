@@ -37,7 +37,12 @@ const SessionProvider: React.FC<SessionProviderProps> = ({ children }) => {
       setCurrentUser(state);
       if (!isAppInitialized) setIsAppInitialized(true);
     };
-    firebase.auth().onAuthStateChanged(callback);
+
+    const errorCallback = (e: firebase.auth.Error) => {
+      console.log("Auth failed: ", e);
+    };
+
+    firebase.auth().onAuthStateChanged(callback, errorCallback);
   }, [setCurrentUser, isAppInitialized]);
 
   return (
