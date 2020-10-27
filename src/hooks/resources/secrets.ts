@@ -11,7 +11,8 @@ export function useSecrets(safeId: string) {
   const [safes, loading, error] = useCollectionData<Secret>(
     firebase
       .firestore()
-      .collection(`users/${currentUser?.uid}/safes/${safeId}/secrets`),
+      .collection(`users/${currentUser?.uid}/safes/${safeId}/secrets`)
+      .orderBy("createdAt", "desc"),
     { idField: "id" }
   );
 
@@ -24,14 +25,17 @@ export function useAddSecret(safeId: string) {
   const [error, setError] = useState<string | null>(null);
 
   const addSecret = useCallback(
-    async (newSecret: Omit<Secret, "id">) => {
+    async (newSecret: Omit<Secret, "id" | "createdAt">) => {
       setLoading(true);
       try {
         const result = await awaitableOffline(
           firebase
             .firestore()
             .collection(`users/${currentUser?.uid}/safes/${safeId}/secrets`)
-            .add({ ...newSecret })
+            .add({
+              ...newSecret,
+              createdAt: firebase.firestore.Timestamp.now(),
+            })
         );
 
         setLoading(false);

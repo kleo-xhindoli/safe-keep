@@ -31,7 +31,6 @@ const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
           aria-describedby={meta.error ? `${name}-error` : undefined}
           {...rest}
           {...field}
-          name={name}
           className={cn("mt-1", inputClassName)}
           ref={ref}
         />

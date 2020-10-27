@@ -22,13 +22,13 @@ export function useAddSafe() {
   const [error, setError] = useState<string | null>(null);
 
   const addSafe = useCallback(
-    async (newSafe: Omit<Safe, "id">) => {
+    async (newSafe: Omit<Safe, "id" | "createdAt">) => {
       setLoading(true);
       try {
         const result = await firebase
           .firestore()
           .collection(`users/${currentUser?.uid}/safes`)
-          .add({ ...newSafe });
+          .add({ ...newSafe, createdAt: firebase.firestore.Timestamp.now() });
 
         return result.id;
       } catch (e) {
