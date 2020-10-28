@@ -2,6 +2,7 @@ import { Formik } from "formik";
 import React from "react";
 import * as Yup from "yup";
 import InputField from "../formik-fields/InputField";
+import PasswordField from "../formik-fields/PasswordField";
 
 const validationSchema = Yup.object({
   label: Yup.string().required("This field is required"),
@@ -39,7 +40,7 @@ const SecretForm = React.forwardRef<HTMLButtonElement, SecretFormProps>(
                 label="Label"
                 placeholder="A label for the secret"
               />
-              <InputField
+              <PasswordField
                 name="value"
                 label="Value"
                 placeholder="The value of the secret to store"
