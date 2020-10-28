@@ -1,7 +1,10 @@
 import * as firebase from "firebase/app";
 import "firebase/firestore";
 import { Safe } from "../../types/safe";
-import { useCollectionData } from "react-firebase-hooks/firestore";
+import {
+  useCollectionData,
+  useDocumentData,
+} from "react-firebase-hooks/firestore";
 import useSession from "../useSession";
 import { useCallback, useState } from "react";
 
@@ -14,6 +17,17 @@ export function useSafes() {
   );
 
   return [safes, loading, error] as const;
+}
+
+export function useSafe(safeId: string) {
+  const { currentUser } = useSession();
+
+  const [safe, loading, error] = useDocumentData<Safe>(
+    firebase.firestore().doc(`users/${currentUser?.uid}/safes/${safeId}`),
+    { idField: "id" }
+  );
+
+  return [safe, loading, error] as const;
 }
 
 export function useAddSafe() {

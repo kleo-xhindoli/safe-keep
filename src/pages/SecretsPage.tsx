@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import SecretFormDrawer from "../components/SecretFormDrawer";
 import SecretsList from "../components/SecretsList";
 import Button from "../components/ui/Button";
+import { useSafe } from "../hooks/resources/safes";
 import { useSecrets } from "../hooks/resources/secrets";
 import useCurrentSafeId from "../hooks/useCurrentSafeId";
 import { useComputed, useDisclosure, useQueryParams } from "../hooks/utils";
@@ -25,11 +26,24 @@ const SecretsPage: React.FC<SecretsPageProps> = () => {
   const history = useHistory();
   const editSecretId = useQueryParams().get("edit");
 
-  const [secrets, loading] = useSecrets(safeId || "");
+  const [safe, isSafeLoading] = useSafe(safeId || "");
+  const [secrets, isSecretsLoading] = useSecrets(safeId || "");
   const editSecret = useComputed(
     () => secrets?.find((s) => s.id === editSecretId),
     [secrets, editSecretId]
   );
+
+  const loading = useComputed(() => isSafeLoading || isSecretsLoading, [
+    isSecretsLoading,
+    isSafeLoading,
+  ]);
+
+  useEffect(() => {
+    // redirect to home if a safe with the given does not exist
+    if (!isSafeLoading && !safe) {
+      history.replace("/");
+    }
+  }, [safe, isSafeLoading, history]);
 
   useEffect(() => {
     if (editSecretId) {
