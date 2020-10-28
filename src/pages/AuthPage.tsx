@@ -8,7 +8,13 @@ import useSession from "../hooks/useSession";
 interface AuthPageProps {}
 
 const AuthPage: React.FC<AuthPageProps> = () => {
-  const { isSigning, withGoogle, withGithub, error } = useAuth();
+  const {
+    isGoogleSigning,
+    isGithubSigning,
+    withGoogle,
+    withGithub,
+    error,
+  } = useAuth();
   const { isAuthenticated } = useSession();
   const history = useHistory();
 
@@ -47,7 +53,7 @@ const AuthPage: React.FC<AuthPageProps> = () => {
           <Button
             className="w-full"
             onClick={() => handleSignIn(withGoogle)}
-            isLoading={isSigning}
+            isLoading={isGoogleSigning}
             leftIcon="Google"
           >
             Sign in with Google
@@ -55,7 +61,7 @@ const AuthPage: React.FC<AuthPageProps> = () => {
           <Button
             className="w-full"
             onClick={() => handleSignIn(withGithub)}
-            isLoading={isSigning}
+            isLoading={isGithubSigning}
             leftIcon="Github"
           >
             Sign in with Github

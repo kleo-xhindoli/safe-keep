@@ -1,6 +1,7 @@
 import * as firebase from "firebase/app";
 import "firebase/auth";
 import { useCallback, useState } from "react";
+import { useComputed } from "./utils";
 
 async function signInWithGoogle() {
   const provider = new firebase.auth.GoogleAuthProvider();
@@ -20,17 +21,22 @@ async function _signOut() {
 }
 
 export default function useAuth() {
-  const [isSigning, setIsSigning] = useState(false);
+  const [isGoogleSigning, setIsGoogleSigning] = useState(false);
+  const [isGithubSigning, setIsGithubSigning] = useState(false);
   const [error, setError] = useState("");
+
+  const isSigning = useComputed(() => {
+    return isGoogleSigning || isGithubSigning;
+  }, [isGithubSigning, isGoogleSigning]);
 
   const withGoogle = useCallback(async () => {
     try {
-      setIsSigning(true);
+      setIsGoogleSigning(true);
       await signInWithGoogle();
-      setIsSigning(false);
+      setIsGoogleSigning(false);
     } catch (e) {
       console.log(e);
-      setIsSigning(false);
+      setIsGoogleSigning(false);
       setError(e.message);
       throw e;
     }
@@ -38,12 +44,12 @@ export default function useAuth() {
 
   const withGithub = useCallback(async () => {
     try {
-      setIsSigning(true);
+      setIsGithubSigning(true);
       await signInWithGithub();
-      setIsSigning(false);
+      setIsGithubSigning(false);
     } catch (e) {
       console.log(e);
-      setIsSigning(false);
+      setIsGithubSigning(false);
       setError(e.message);
       throw e;
     }
@@ -54,6 +60,8 @@ export default function useAuth() {
     withGithub,
     signOut: _signOut,
     isSigning,
+    isGoogleSigning,
+    isGithubSigning,
     error,
   };
 }
