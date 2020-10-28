@@ -40,6 +40,7 @@ const config = {
   },
 } as const;
 
+console.log("ENV: ", env);
 console.log("CONFIG: ", config[env]);
 
 export default config[env];
