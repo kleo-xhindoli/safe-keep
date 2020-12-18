@@ -32,10 +32,20 @@ const SecretListItem: React.FC<SecretListItemProps> = ({
       });
     } catch (e) {
       console.error(e);
+      showNotification({
+        title: "Failed to copy",
+        subtitle: e.message,
+        type: NotificationType.Error,
+      });
     }
   };
 
   const handleCopyValue = async () => {
+    if (!navigator.permissions) {
+      /** Safari doesn't have navigator permissions, attempt to copy anyway */
+      copyValue();
+    }
+
     try {
       const queryOpts = { name: "clipboard-write", allowWithoutGesture: false };
       // @ts-expect-error (bad typings?)
