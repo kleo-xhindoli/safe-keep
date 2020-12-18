@@ -26,6 +26,7 @@ const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
         )}
         <Input
           id={name}
+          type="text"
           hasError={Boolean(meta.error && meta.touched)}
           aria-invalid={Boolean(meta.error)}
           aria-describedby={meta.error ? `${name}-error` : undefined}

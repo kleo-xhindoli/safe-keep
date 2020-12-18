@@ -18,13 +18,15 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     ref
   ) => {
     const baseStyles = cn(
-      "form-input block w-full py-2 px-3 border rounded-md shadow-sm focus:outline-none transition duration-150 ease-in-out sm:text-sm sm:leading-5",
-      { "pl-10": leftElement }
+      "shadow-sm block w-full sm:text-sm rounded-md border-1",
+      {
+        "pl-10": leftElement,
+      }
     );
     const idleStyles =
-      "border-gray-300 focus:shadow-outline-indigo focus:border-indigo-300";
+      "focus:ring-indigo-500 focus:border-indigo-500 border-gray-300";
     const errorStyles =
-      "border-red-300 text-red-900 placeholder-red-300 focus:border-red-300 focus:shadow-outline-red";
+      "border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500";
 
     const wrapperStyles = cn("rounded-md shadow-sm relative", className);
     return (

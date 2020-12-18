@@ -11,13 +11,13 @@ const HomePage: React.FC<HomePageProps> = () => {
   const [initialized, setInitialized] = useState(false);
   const [defaultSafeId, setDefaultSafeId] = useState("");
 
-  const [safes, loading] = useSafes();
+  const [safes, loading, error] = useSafes();
   const [addSafe] = useAddSafe();
 
   useEffect(() => {
     const init = async () => {
       // if there aren't any safes for this user, create a default one
-      if (!loading && !safes?.length) {
+      if (!loading && !safes?.length && !error) {
         const newSafeId = await addSafe({
           name: `${currentUser?.displayName}'s default Safe`,
           secrets: {},
@@ -30,7 +30,7 @@ const HomePage: React.FC<HomePageProps> = () => {
     };
 
     init();
-  }, [loading, safes, currentUser, addSafe]);
+  }, [loading, safes, currentUser, error, addSafe]);
 
   if (!initialized) {
     return (
