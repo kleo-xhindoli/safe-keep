@@ -36,7 +36,7 @@ const AuthPage: React.FC<AuthPageProps> = () => {
           <img
             alt="SafeKeep Logo"
             src={process.env.PUBLIC_URL + "/LogoSymbol.png"}
-            className="w-20"
+            style={{ width: 80, height: 98 }}
           />
         </div>
         <Heading
